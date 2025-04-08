@@ -25,7 +25,7 @@ class SendOTPView(APIView):
         user.otp_created_at = timezone.now()
         user.save()
         
-        print(f"OTP (demo): {otp}")  # haqiqiy SMS integratsiya bu yerda bo'ladi
+        print(f"OTP (demo): {otp}")  
 
         return Response({'detail': 'OTP sent successfully'})
 
