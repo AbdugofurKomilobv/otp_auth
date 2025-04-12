@@ -5,6 +5,16 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.utils import timezone
 import random
+from .models import User
+
+
+class Teacher(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=100)
+    experience_years = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.user.full_name or self.user.phone} - {self.subject}"
 
 
 class UserManager(BaseUserManager):

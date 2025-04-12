@@ -7,10 +7,28 @@ from django.utils import timezone
 from datetime import timedelta
 from rest_framework_simplejwt.tokens import RefreshToken
 import random
-
+from .serializers import *
+from .models import *
+from rest_framework.permissions import IsAuthenticated
 
 def generate_otp():
     return str(random.randint(100000, 999999))
+
+
+
+class CreateTeacherAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = TeacherCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "success": True,
+                "message": "Teacher created successfully.",
+                "data": serializer.data
+            }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class SendOTPView(APIView):
